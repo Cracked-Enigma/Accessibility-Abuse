@@ -2,17 +2,11 @@ package com.example.ransomware_pro.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
-import android.os.Build
+import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowInsets
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import com.example.ransomware_pro.databinding.ActivityRickBinding
-import com.example.ransomware_pro.R
+import com.example.ransomware_pro.controller.PermCont
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -24,6 +18,10 @@ class RickActivity : AppCompatActivity() {
 //            System.loadLibrary("ransomware_pro")
 //        }
 //    }
+    val perm:PermCont
+    init {
+        perm= PermCont(this)
+    }
     private lateinit var binding: ActivityRickBinding
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +32,19 @@ class RickActivity : AppCompatActivity() {
 
         binding.killBtn.setOnClickListener {
             killApp();
+        }
+
+        askPermission()
+
+//        val arr = Array<String>(1){perm}
+//        ActivityCompat.requestPermissions(context as Activity,arr,1001);
+    }
+    fun askPermission(){
+        //storage
+        val camPerm=android.Manifest.permission.CAMERA
+        val res=perm.checkPerm(camPerm)
+        if(!res){
+            perm.askPermission(camPerm,this)
         }
     }
     external fun killApp()
